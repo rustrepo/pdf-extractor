@@ -1,0 +1,54 @@
+use pdf_extract::extract_text;
+use std::io;
+
+/// Reads the PDF file and extracts text from it.
+fn extract_pdf_text(file_path: &str) -> Result<String, io::Error> {
+    match extract_text(file_path) {
+        Ok(text) => Ok(text),
+        Err(e) => Err(io::Error::new(io::ErrorKind::Other, e.to_string())),
+    }
+}
+
+/// Finds lines containing the specified keywords.
+/// 
+/// # Arguments
+/// * `text` - The text to search.
+/// * `keywords` - A list of keywords to search for.
+/// 
+/// # Returns
+/// A vector of lines containing any of the keywords.
+fn find_lines_with_keywords(text: &str, keywords: &[&str]) -> Vec<String> {
+    let mut matching_lines = Vec::new();
+
+    for line in text.lines() {
+        if keywords.iter().any(|&keyword| line.contains(keyword)) {
+            matching_lines.push(line.to_string());
+        }
+    }
+
+    matching_lines
+}
+
+/// Main function to demonstrate usage.
+fn main() {
+    let pdf_path = "src/docs/permit-1.pdf"; // Replace with your PDF file path
+    let keywords = ["SP6", "drainage", "Party Wall"]; // Replace with your keywords
+
+    match extract_pdf_text(pdf_path) {
+        Ok(text) => {
+            let matching_lines = find_lines_with_keywords(&text, &keywords);
+
+            if matching_lines.is_empty() {
+                println!("No matching lines found.");
+            } else {
+                println!("Lines containing keywords:");
+                for line in matching_lines {
+                    println!("== {}", line);
+                }
+            }
+        }
+        Err(e) => {
+            eprintln!("Error extracting text: {}", e);
+        }
+    }
+}

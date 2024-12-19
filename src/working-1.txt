@@ -1,0 +1,15 @@
+fn main() {
+    let bytes = std::fs::read("src/docs/permit-1.pdf").unwrap();
+    let out = pdf_extract::extract_text_from_mem(&bytes).unwrap();
+    //assert!(out.contains("Manchester"));
+
+    //pub fn extract_text_from_mem(buffer: &[u8]) -> Result<String, OutputError>
+    
+        if out.contains("SP6")  {
+            println!("PDF Contains the word SP6");
+        } else {
+            println!("PDF Does not contains the word SP6");
+        }
+
+    println!("{}", out );
+}
