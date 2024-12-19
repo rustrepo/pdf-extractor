@@ -31,8 +31,8 @@ fn find_paragraphs_with_keywords(text: &str, keywords: &[&str]) -> Vec<String> {
 
 /// Main function to demonstrate usage.
 fn main() {
-    let pdf_path = "src/docs/permit-1.pdf"; // Replace with your PDF file path
-    let keywords = ["sp6", "Drainage", "party wall"]; // Replace with your keywords
+    let pdf_path = "src/docs/sample.pdf"; // Replace with your PDF file path
+    let keywords = [ "oxford"]; // Replace with your keywords
 
     match extract_pdf_text(pdf_path) {
         Ok(text) => {
@@ -41,9 +41,9 @@ fn main() {
             if matching_paragraphs.is_empty() {
                 println!("No matching paragraphs found.");
             } else {
-                println!("Paragraphs containing keywords:");
+                println!("Paragraphs containing keywords: \n");
                 for paragraph in matching_paragraphs {
-                    println!("\n{}\n", paragraph);
+                    println!("== paragraph start: \n{}\n === Paragraph end\n", paragraph);
                 }
             }
         }
